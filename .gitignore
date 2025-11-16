@@ -1,0 +1,14 @@
+# Node
+node_modules/
+web/node_modules/
+
+# Environment & local config
+.env
+*.env
+
+# DB files
+*.db
+*.sqlite
+
+# Uploads
+uploads/
