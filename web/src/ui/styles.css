@@ -1,0 +1,91 @@
+:root{
+  --bg: #0b0c0f;
+  --panel: #111418;
+  --panel-2: #0e1014;
+  --text: #e6e8ef;
+  --muted: #9aa3b2;
+  --brand: #6aa3ff;           /* earlhamish*/
+  --brand-2:#4e86f5;
+  --ok: #2ecc71;
+  --warn:#ffb020;
+  --err: #ff5c5c;
+  --hair:#1b1f27;
+  --ring:#2a3550;
+  --card:#0f1217;
+  --shadow: 0 6px 24px rgba(0,0,0,.35);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+/* base */
+*{ box-sizing:border-box }
+html,body,#root{ height:100% }
+body{
+  margin:0; background:linear-gradient(180deg, var(--bg) 0%, #0a0b0e 100%);
+  color:var(--text); font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+}
+a{ color:var(--brand); text-decoration:none }
+a:hover{ text-decoration:underline }
+
+.container{ max-width:1100px; margin:0 auto; padding:28px 20px }
+.header{
+  position:sticky; top:0; z-index:10; backdrop-filter: blur(6px);
+  background: color-mix(in oklab, var(--panel) 85%, transparent);
+  border-bottom:1px solid var(--hair);
+}
+.header .bar{ display:flex; align-items:center; gap:16px; justify-content:space-between; padding:14px 20px }
+.title{ font-size:28px; font-weight:700; letter-spacing:.2px; margin:0 }
+
+.tabs{ display:flex; gap:8px; flex-wrap:wrap }
+.btn{
+  appearance:none; border:1px solid var(--hair); background:var(--panel);
+  color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer;
+  transition: .18s ease border-color, .18s ease background, .18s ease transform;
+}
+.btn:hover{ border-color:var(--ring) }
+.btn:active{ transform: translateY(1px) }
+.btn.primary{ background:linear-gradient(180deg, var(--brand) 0%, var(--brand-2) 100%); border-color:transparent; color:white }
+.btn.ghost{ background:transparent }
+.btn.link{ background:transparent; border-color:transparent; padding:0 2px }
+
+.user{ color:var(--muted); font-weight:600 }
+
+/* panels and cards */
+.panel{ background:var(--panel); border:1px solid var(--hair); border-radius:var(--radius); box-shadow:var(--shadow) }
+.panel.pad{ padding:18px }
+
+.h1{ font:600 22px/1.25 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif; margin: 18px 0 }
+.subtle{ color:var(--muted) }
+
+.grid{ display:grid; gap:12px }
+.grid.cards{ grid-template-columns:1fr; }
+@media (min-width: 760px){ .grid.cards{ grid-template-columns:1fr 1fr } }
+
+.card{ background:var(--card); border:1px solid var(--hair); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow) }
+.card:hover{ border-color:var(--ring) }
+
+.row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+.row.right{ justify-content:flex-end }
+
+/* form */
+.input, .select, .textarea, .datetime{
+  width:100%; background:var(--panel-2); color:var(--text);
+  border:1px solid var(--hair); border-radius:10px; padding:10px 12px;
+  outline:none; transition: .18s ease border-color, .18s ease box-shadow;
+}
+.input:focus, .select:focus, .textarea:focus, .datetime:focus{
+  border-color:var(--ring); box-shadow:0 0 0 3px color-mix(in oklab, var(--ring) 20%, transparent);
+}
+.select{ padding-right:32px }
+.textarea{ min-height:110px; resize:vertical }
+label .hint{ color:var(--muted); font-size:12px; margin-left:6px }
+
+/* badges */
+.badge{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-weight:600; font-size:12px; letter-spacing:.2px; }
+.badge.ok{ background: color-mix(in oklab, var(--ok) 20%, transparent); color:#93f1ba; border:1px solid color-mix(in oklab, var(--ok) 40%, transparent) }
+.badge.warn{ background: color-mix(in oklab, var(--warn) 18%, transparent); color:#ffd66e; border:1px solid color-mix(in oklab, var(--warn) 40%, transparent) }
+.badge.err{ background: color-mix(in oklab, var(--err) 18%, transparent); color:#ff9b9b; border:1px solid color-mix(in oklab, var(--err) 35%, transparent) }
+
+/* helper */
+.empty{ color:var(--muted); border:1px dashed var(--hair); padding:22px; border-radius:12px; text-align:center }
+.hr{ height:1px; background:var(--hair); margin:18px 0 }

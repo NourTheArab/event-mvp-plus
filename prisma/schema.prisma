@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  role          String   @default("student") // superadmin | admin | student
+  magicToken    String?  @unique
+  tokenExpires  DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  events        Event[]  @relation("UserEvents")
+}
+
+model Group {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  convenerEmail String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events    Event[]
+}
+
+model Venue {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  capacity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events    Event[]
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  name      String
+  notifyEmail String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventServices EventService[]
+}
+
+model Event {
+  id                  String      @id @default(cuid())
+  title               String
+  description         String?
+  groupId             String
+  venueId             String
+  startsAt            DateTime
+  endsAt              DateTime
+  expectedAttendance  Int          @default(0)
+  status              String       @default("draft")   // draft | submitted | approved | declined
+  conflict            Boolean      @default(false)
+  visibility          String       @default("private") // private | public
+  createdById         String
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  group     Group     @relation(fields: [groupId], references: [id])
+  venue     Venue     @relation(fields: [venueId], references: [id])
+  createdBy User      @relation("UserEvents", fields: [createdById], references: [id])
+  services  EventService[]
+  attachments Attachment[]
+}
+
+model EventService {
+  id        String   @id @default(cuid())
+  eventId   String
+  serviceId String
+  notes     String?
+  notified  Boolean  @default(false)
+
+  event     Event    @relation(fields: [eventId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Attachment {
+  id        String   @id @default(cuid())
+  eventId   String
+  filename  String
+  mime      String
+  sizeBytes Int
+  createdAt DateTime @default(now())
+
+  event     Event    @relation(fields: [eventId], references: [id])
+}
